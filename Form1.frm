@@ -10,10 +10,27 @@ Begin VB.Form Form1
    ScaleHeight     =   9000
    ScaleWidth      =   16155
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command3 
+      Caption         =   ">"
+      Height          =   495
+      Left            =   13680
+      TabIndex        =   20
+      Top             =   6360
+      Width           =   495
+   End
+   Begin VB.CommandButton Command2 
+      Caption         =   "<"
+      Height          =   495
+      Left            =   2160
+      TabIndex        =   19
+      Top             =   6480
+      Width           =   495
+   End
    Begin MSAdodcLib.Adodc Adodc1 
       Height          =   375
-      Left            =   960
-      Top             =   6120
+      Left            =   1080
+      Top             =   360
+      Visible         =   0   'False
       Width           =   1200
       _ExtentX        =   2117
       _ExtentY        =   661
@@ -56,13 +73,6 @@ Begin VB.Form Form1
       EndProperty
       _Version        =   393216
    End
-   Begin VB.HScrollBar HScroll1 
-      Height          =   375
-      Left            =   1320
-      TabIndex        =   4
-      Top             =   7680
-      Width           =   1215
-   End
    Begin VB.CommandButton Command1 
       DisabledPicture =   "Form1.frx":013C
       DownPicture     =   "Form1.frx":16B3
@@ -76,12 +86,83 @@ Begin VB.Form Form1
       Top             =   1080
       Width           =   615
    End
+   Begin VB.Label Label7 
+      Height          =   375
+      Left            =   14040
+      TabIndex        =   21
+      Top             =   5520
+      Width           =   255
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   6
+      Left            =   12960
+      TabIndex        =   18
+      Top             =   6600
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   5
+      Left            =   9360
+      TabIndex        =   17
+      Top             =   6600
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   4
+      Left            =   6120
+      TabIndex        =   16
+      Top             =   6600
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   3
+      Left            =   12240
+      TabIndex        =   15
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   2
+      Left            =   9360
+      TabIndex        =   14
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   1
+      Left            =   5760
+      TabIndex        =   13
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Label Label6 
+      Height          =   255
+      Index           =   0
+      Left            =   2880
+      TabIndex        =   12
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   375
+   End
    Begin VB.Label Label5 
       Caption         =   "Label5"
       Height          =   375
-      Left            =   120
-      TabIndex        =   12
-      Top             =   1440
+      Left            =   1080
+      TabIndex        =   11
+      Top             =   1080
+      Visible         =   0   'False
       Width           =   1575
    End
    Begin VB.Label Label4 
@@ -89,7 +170,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   6
       Left            =   10440
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   8160
       Width           =   2175
    End
@@ -98,7 +179,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   5
       Left            =   6840
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   8160
       Width           =   2175
    End
@@ -107,7 +188,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   4
       Left            =   3360
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   8160
       Width           =   2175
    End
@@ -116,7 +197,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   3
       Left            =   11640
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   4800
       Width           =   2175
    End
@@ -125,7 +206,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   2
       Left            =   8160
-      TabIndex        =   7
+      TabIndex        =   6
       Top             =   4800
       Width           =   2175
    End
@@ -134,7 +215,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   1
       Left            =   4800
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   4800
       Width           =   2175
    End
@@ -143,7 +224,7 @@ Begin VB.Form Form1
       Height          =   375
       Index           =   0
       Left            =   1680
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   4800
       Width           =   2175
    End
@@ -266,6 +347,60 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub Command1_Click()
+    Form3.Show
+End Sub
+
+Private Sub Command2_Click()
+    invicible
+    CTP
+    With TP
+        x = Label7.Caption
+        .Find "Id_Producto='" & x & "'"
+        x = 6
+        For i = 0 To 6
+            If .EOF Or .BOF Then Exit Sub
+            If i > 0 Then .MovePrevious
+            If .EOF Or .BOF Then Exit Sub
+            If Trim(!URL) = "" Then
+                Image1(x).Picture = LoadPicture("& App.Path &\img\df.jpg")
+            Else
+                Image1(x).Picture = LoadPicture(Trim(!URL))
+            End If
+            Label4(x).Caption = !Etiqueta
+            Label6(x).Caption = !Id_Producto
+            Image1(x).Visible = True
+            Label4(x).Visible = True
+            x = x - 1
+        Next i
+        Label7.Caption = !Id_Producto
+    End With
+End Sub
+
+Private Sub Command3_Click()
+    invicible
+    CTP
+    With TP
+        x = Label7.Caption
+        .Find "Id_Producto='" & x & "'"
+        For i = 0 To 6
+            If .EOF Or .BOF Then Exit Sub
+            .MoveNext
+            If .EOF Or .BOF Then Exit Sub
+            If Trim(!URL) = "" Then
+                Image1(i).Picture = LoadPicture("& App.Path &\img\df.jpg")
+            Else
+                Image1(i).Picture = LoadPicture(Trim(!URL))
+            End If
+            Label4(i).Caption = !Etiqueta
+            Label6(i).Caption = !Id_Producto
+            Image1(i).Visible = True
+            Label4(i).Visible = True
+        Next i
+        Label7.Caption = !Id_Producto
+    End With
+End Sub
+
 Private Sub Form_Load()
     invicible
     CTP
@@ -284,9 +419,11 @@ Private Sub Form_Load()
                 Image1(i).Picture = LoadPicture(Trim(!URL))
             End If
             Label4(i).Caption = !Etiqueta
+            Label6(i).Caption = !Id_Producto
             Image1(i).Visible = True
             Label4(i).Visible = True
         Next i
+        Label7.Caption = !Id_Producto
     End With
 End Sub
 
@@ -297,10 +434,25 @@ Sub invicible()
     Next i
 End Sub
 
-
-
 Private Sub Image1_Click(Index As Integer)
     Label5.Caption = Index
-    
+    x = Label5.Caption
+    Label5.Caption = Label6(x).Caption
+    Form4.Show
+    x = Label5.Caption
+    CTP
+    With TP
+        .Find "Id_Producto='" & x & "'"
+        If Trim(!URL) = "" Then
+            Form4.Image2.Picture = LoadPicture("& App.Path &\img\df.jpg")
+        Else
+            Form4.Image2.Picture = LoadPicture(Trim(!URL))
+        End If
+        Form4.Label1.Caption = Trim(!Etiqueta)
+        Form4.Label4.Caption = Trim(!Descripcion)
+        Form4.Label2.Caption = Trim(!Precio)
+        'If !Color = "rojo" Then Form4.Shape1.BackColor = &HFF&
+        
+    End With
 End Sub
 
