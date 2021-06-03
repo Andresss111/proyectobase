@@ -452,7 +452,7 @@ Private Sub Image1_Click(Index As Integer)
         Form4.Label4.Caption = Trim(!Descripcion)
         Form4.Label2.Caption = Trim(!Precio)
         'If !Color = "rojo" Then Form4.Shape1.BackColor = &HFF&
-        
+        Form4.Text1.Enabled = False
     End With
 End Sub
 

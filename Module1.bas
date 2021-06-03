@@ -1,6 +1,7 @@
 Attribute VB_Name = "Module1"
 Global base As New ADODB.Connection
 Global TP As New Recordset
+Global Temp As New Recordset
 
 Sub main()
     With base
@@ -16,3 +17,11 @@ Sub CTP()
         .Open "select * from Producto", base, adOpenStatic, adLockBatchOptimistic
     End With
 End Sub
+
+Sub CTEMP()
+    With Temp
+        If .State = 1 Then .Close
+        .Open "select * from Temp", base, adOpenStatic, adLockBatchOptimistic
+    End With
+End Sub
+
