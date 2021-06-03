@@ -1,13 +1,14 @@
 Attribute VB_Name = "Module1"
 Global base As New ADODB.Connection
 Global TP As New Recordset
+Global Clientes As New Recordset
 Global Temp As New Recordset
 
 Sub main()
     With base
         .CursorLocation = adUseClient
         .Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\base\base.mdb;Persist Security Info=False"
-        Form1.Show
+        Form2.Show
     End With
 End Sub
 
@@ -24,4 +25,9 @@ Sub CTEMP()
         .Open "select * from Temp", base, adOpenStatic, adLockBatchOptimistic
     End With
 End Sub
-
+Sub CTC()
+    With Clientes
+        If .State = 1 Then .Close
+        .Open "select * from Cliente", base, adOpenStatic, adLockBatchOptimistic
+    End With
+End Sub
