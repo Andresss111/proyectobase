@@ -263,3 +263,14 @@ Private Sub Command2_Click()
     copiar
 End Sub
 
+Private Sub Form_Load()
+    CTEMP
+    With Temp
+        .MoveFirst
+        For i = 1 To .RecordCount
+            .Delete
+            .MoveNext
+        Next i
+    End With
+    Form9.Hide
+End Sub

@@ -437,7 +437,16 @@ Private Sub Form_Load()
         Next i
         Label7.Caption = !Id_Producto
     End With
-    
+    CTEMP
+    With Temp
+        x = .RecordCount
+    End With
+    For i = 1 To x
+        With Temp
+            .Delete
+            .MoveNext
+        End With
+    Next i
 End Sub
 
 Sub antiguo()

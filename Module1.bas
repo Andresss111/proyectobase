@@ -11,7 +11,7 @@ Sub main()
     With base
         .CursorLocation = adUseClient
         .Open "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\base\base.mdb;Persist Security Info=False"
-        Form1.Show
+        Form2.Show
     End With
 End Sub
 

@@ -66,6 +66,14 @@ Begin VB.Form Form2
       TabIndex        =   0
       Top             =   360
       Width           =   7215
+      Begin VB.CommandButton Command2 
+         Caption         =   "Command2"
+         Height          =   255
+         Left            =   1080
+         TabIndex        =   23
+         Top             =   4920
+         Width           =   615
+      End
       Begin VB.CommandButton Command1 
          Caption         =   "Guardar"
          Height          =   375
@@ -401,6 +409,14 @@ Begin VB.Form Form2
          Width           =   1095
       End
    End
+   Begin VB.Label bloq 
+      Caption         =   "Label13"
+      Height          =   495
+      Left            =   120
+      TabIndex        =   24
+      Top             =   2520
+      Width           =   255
+   End
    Begin VB.Label Label12 
       Caption         =   "Label12"
       Height          =   255
@@ -481,10 +497,32 @@ Private Sub Command1_Click()
             .MoveNext
         Next i
     End With
-    Form4.Show
+    Form1.Show
     Form2.Hide
     CTEMP
     Set DataGrid1.DataSource = Temp
+End Sub
+
+Private Sub Command2_Click()
+    CTEMP
+    Set DataGrid1.DataSource = Temp
+    With Temp
+        x = .RecordCount
+    End With
+    For i = 1 To x
+        If i = 0 Then
+        With Temp
+            .AddNew
+            !Descripción = "hey hey"
+            .UpdateBatch
+        End With
+        Else
+        With Temp
+            .Delete
+            .MoveNext
+        End With
+        End If
+    Next i
 End Sub
 
 Private Sub Form_Load()
@@ -507,12 +545,13 @@ Private Sub Form_Load()
     txtdir.Text = ""
     txtruc.Text = ""
     txttel.Text = ""
+    bloq.Caption = "0"
     CTEMP
     Set DataGrid1.DataSource = Temp
-    
 End Sub
 
 Private Sub txtruc_Change()
+    If bloq.Caption = "1" Then Exit Sub
     CTP
     With Clientes
         x = txtruc.Text
@@ -524,6 +563,7 @@ Private Sub txtruc_Change()
         txtnom.Text = !Nombre
         txtdir.Text = !Dirección
         txttel.Text = !Celular
+        bloq.Caption = "1"
     End With
     CTEMP
     With Temp
