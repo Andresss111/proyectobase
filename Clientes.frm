@@ -110,6 +110,8 @@ Private Sub cmdgu_Click()
     CTC
     If txtruc.Text = "" Or txtnomc.Text = "" Or txttel.Text = "" Or txtdir.Text = "" Then MsgBox "Por favor rellenar los campos requeridos": Exit Sub
     With Clientes
+    
+    
         .AddNew
         !Id_C = txtruc.Text
         !Nombre = txtnomc.Text
@@ -117,6 +119,9 @@ Private Sub cmdgu_Click()
         !Dirección = txtdir.Text
         !Email = txtema.Text
         .UpdateBatch
+   
+        
     End With
+    Form8.Hide
 End Sub
 

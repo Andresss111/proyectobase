@@ -66,6 +66,14 @@ Begin VB.Form Form2
       TabIndex        =   0
       Top             =   360
       Width           =   7215
+      Begin VB.CommandButton Command1 
+         Caption         =   "Guardar"
+         Height          =   375
+         Left            =   2520
+         TabIndex        =   20
+         Top             =   5640
+         Width           =   1335
+      End
       Begin VB.CommandButton cmdcli 
          Caption         =   "Nuevo Cliente"
          Height          =   255
@@ -160,6 +168,7 @@ Begin VB.Form Form2
          Width           =   735
       End
       Begin VB.TextBox txttel 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   5280
          TabIndex        =   11
@@ -167,6 +176,7 @@ Begin VB.Form Form2
          Width           =   1215
       End
       Begin VB.TextBox txtdir 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   840
          TabIndex        =   9
@@ -181,6 +191,7 @@ Begin VB.Form Form2
          Width           =   1695
       End
       Begin VB.TextBox txtnom 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   840
          TabIndex        =   5
@@ -385,6 +396,31 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub cmdcli_Click()
+    Form8.Show
+    Form8.txtdir = ""
+    Form8.txtema = ""
+    Form8.txtnomc = ""
+    Form8.txtruc = ""
+    Form8.txttel = ""
+    Form8.txtnomc.SetFocus
+    
+End Sub
+
+Private Sub Command1_Click()
+ CTEMP
+    With Temp
+        For i = 1 To .RecordCount
+            If i = 1 Then
+                .MoveFirst
+            Else
+                .MoveNext
+            End If
+            Text2.Text = Val(Text2.Text) + Val(!Total)
+        Next i
+    End With
+End Sub
+
 Private Sub Form_Load()
     'Adodc1.CursorLocation = adUseClient
     'Adodc1."Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\base\base.mdb;Persist Security Info=False"
@@ -392,4 +428,23 @@ Private Sub Form_Load()
      CTEMP
     Set DataGrid1.DataSource = Temp
     
+End Sub
+
+Private Sub txtruc_Change()
+    CTP
+    With Clientes
+        x = txtruc.Text
+        If .State = 1 Then .Close
+        .Open "select * from Cliente where [Id_C]like '" & x & "'", base, adOpenStatic, adLockBatchOptimistic
+        If .EOF Or .BOF Then Exit Sub
+        .Find "Id_C = '" & x & "'"
+        If .EOF Or .BOF Then Exit Sub
+        txtnom.Text = !Nombre
+        txtdir.Text = !Dirección
+        txttel.Text = !Celular
+    End With
+    
+        
+        
+        
 End Sub
