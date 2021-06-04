@@ -10,6 +10,14 @@ Begin VB.Form Form1
    ScaleHeight     =   9000
    ScaleWidth      =   16155
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command4 
+      Caption         =   "Command4"
+      Height          =   495
+      Left            =   14520
+      TabIndex        =   22
+      Top             =   1080
+      Width           =   615
+   End
    Begin VB.CommandButton Command3 
       Caption         =   ">"
       Height          =   495
@@ -401,8 +409,39 @@ Private Sub Command3_Click()
     End With
 End Sub
 
+Private Sub Command4_Click()
+    Form2.Show
+End Sub
+
 Private Sub Form_Load()
-    invicible
+    CTP
+    With TP
+        invicible
+        For i = 0 To 6
+            If .EOF Or .BOF Then Exit Sub
+            If i = 0 Then
+                .MoveFirst
+            Else
+                .MoveNext
+            End If
+            If .EOF Or .BOF Then Exit Sub
+            If Trim(!URL) = "" Then
+                Image1(i).Picture = LoadPicture("C:\Proyecto\final\img\nimg.jpg")
+            Else
+                Image1(i).Picture = LoadPicture(Trim(!URL))
+            End If
+            Label4(i).Caption = !Etiqueta
+            Label6(i).Caption = !Id_Producto
+            Image1(i).Visible = True
+            Label4(i).Visible = True
+        Next i
+        Label7.Caption = !Id_Producto
+    End With
+    
+End Sub
+
+Sub antiguo()
+invicible
     CTP
     With TP
         For i = 0 To 6

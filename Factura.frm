@@ -79,7 +79,7 @@ Begin VB.Form Form2
          Height          =   255
          Left            =   240
          TabIndex        =   19
-         Top             =   5880
+         Top             =   5640
          Width           =   1575
       End
       Begin MSDataGridLib.DataGrid DataGrid1 
@@ -147,13 +147,16 @@ Begin VB.Form Form2
          EndProperty
       End
       Begin VB.TextBox Text3 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   5760
          TabIndex        =   17
+         Text            =   "12%"
          Top             =   4800
          Width           =   735
       End
       Begin VB.TextBox Text2 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   5760
          TabIndex        =   16
@@ -161,6 +164,7 @@ Begin VB.Form Form2
          Width           =   735
       End
       Begin VB.TextBox Text1 
+         Enabled         =   0   'False
          Height          =   285
          Left            =   5760
          TabIndex        =   15
@@ -197,6 +201,13 @@ Begin VB.Form Form2
          TabIndex        =   5
          Top             =   1560
          Width           =   3255
+      End
+      Begin VB.Label Label11 
+         Height          =   375
+         Left            =   360
+         TabIndex        =   21
+         Top             =   360
+         Width           =   495
       End
       Begin VB.Label Label10 
          Alignment       =   1  'Right Justify
@@ -390,6 +401,14 @@ Begin VB.Form Form2
          Width           =   1095
       End
    End
+   Begin VB.Label Label12 
+      Caption         =   "Label12"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   22
+      Top             =   1440
+      Width           =   255
+   End
 End
 Attribute VB_Name = "Form2"
 Attribute VB_GlobalNameSpace = False
@@ -408,24 +427,87 @@ Private Sub cmdcli_Click()
 End Sub
 
 Private Sub Command1_Click()
- CTEMP
+    If txtnom.Text = "" Then MsgBox "Rellene los datos del cliente", vbCritical: Exit Sub
+    If DataGrid1.ApproxCount < 1 Then MsgBox "Añada productos a su compra", vbCritical: Exit Sub
+    CFact
+    With Fact
+        .AddNew
+        !Id_C = txtruc.Text
+        !Fecha = Data
+        !Subtotal = Text2.Text
+        !IVA = CDbl(Text3.Text)
+        !Total = Text1.Text
+        .UpdateBatch
+        Label11.Caption = !Id_F
+    End With
+    CTEMP
     With Temp
-        For i = 1 To .RecordCount
+        x = .RecordCount
+    End With
+    For i = 1 To x
+        CTEMP
+        With Temp
             If i = 1 Then
                 .MoveFirst
             Else
+                .Find "Id='" & Label12.Caption & "'"
                 .MoveNext
             End If
-            Text2.Text = Val(Text2.Text) + Val(!Total)
+            a = !Id_P_FK
+            b = !Descripción
+            c = !Talla
+            d = !Cantidad
+            e = !Precio
+            f = !Total
+            Label12.Caption = !Id
+        End With
+        CDFact
+        With DFact
+            .AddNew
+            !Id_P_FK = a
+            !Id_F = Label11.Caption
+            !Descripción = b
+            !Talla = c
+            !Cantidad = d
+            !Precio = e
+            !Total = f
+            .UpdateBatch
+        End With
+    Next i
+    CTEMP
+    With Temp
+        For i = 1 To .RecordCount
+            .Delete
+            .MoveNext
         Next i
     End With
+    Form4.Show
+    Form2.Hide
+    CTEMP
+    Set DataGrid1.DataSource = Temp
 End Sub
 
 Private Sub Form_Load()
     'Adodc1.CursorLocation = adUseClient
     'Adodc1."Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\base\base.mdb;Persist Security Info=False"
     'Adodc1.RecordSource = "select * from Temp"
-     CTEMP
+    CFact
+    With Fact
+        If .EOF Or .BOF Then
+            Label11.Caption = "1"
+        Else
+            .MoveLast
+            Label11.Caption = Val(!Id_F) + 1
+        End If
+    End With
+    Text1.Text = ""
+    Text2.Text = ""
+    Text3.Text = ""
+    txtnom.Text = ""
+    txtdir.Text = ""
+    txtruc.Text = ""
+    txttel.Text = ""
+    CTEMP
     Set DataGrid1.DataSource = Temp
     
 End Sub
@@ -443,8 +525,19 @@ Private Sub txtruc_Change()
         txtdir.Text = !Dirección
         txttel.Text = !Celular
     End With
-    
-        
-        
-        
+    CTEMP
+    With Temp
+        For i = 1 To .RecordCount
+            If i = 1 Then
+                .MoveFirst
+            Else
+                .MoveNext
+            End If
+            Text2.Text = Val(Text2.Text) + Val(!Total)
+        Next i
+    End With
+    Text3.Text = Val(Text2.Text) * 0.12
+    Text1.Text = Val(Text2.Text) + Val(Text3.Text)
+    CTEMP
+    Set DataGrid1.DataSource = Temp
 End Sub
