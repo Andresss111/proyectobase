@@ -428,7 +428,8 @@ Private Sub Form_Load()
             If Trim(!URL) = "" Then
                 Image1(i).Picture = LoadPicture("C:\Proyecto\final\img\nimg.jpg")
             Else
-                Image1(i).Picture = LoadPicture(Trim(!URL))
+                y = App.Path
+                'Image1(i).Picture = LoadPicture(y & "\img\" & Trim(!URL))
             End If
             Label4(i).Caption = !Etiqueta
             Label6(i).Caption = !Id_Producto
@@ -439,6 +440,7 @@ Private Sub Form_Load()
     End With
     CTEMP
     With Temp
+        If .EOF Or .BOF Then Exit Sub
         x = .RecordCount
     End With
     For i = 1 To x
@@ -494,7 +496,8 @@ Private Sub Image1_Click(Index As Integer)
         If Trim(!URL) = "" Then
             Form4.Image2.Picture = LoadPicture("& App.Path &\img\df.jpg")
         Else
-            Form4.Image2.Picture = LoadPicture(Trim(!URL))
+            y = App.Path
+            Form4.Image2.Picture = LoadPicture(y & "\img\" & Trim(!URL))
         End If
         Form4.Label1.Caption = Trim(!Etiqueta)
         Form4.Label4.Caption = Trim(!Descripcion)

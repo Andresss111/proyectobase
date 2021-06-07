@@ -150,7 +150,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Private Sub Command1_Click()
-    If VF.Caption = 0 Then Exit Sub
+    If VF.Caption = 0 Or VF.Caption = "" Then Exit Sub
+    If Text1.Text = "" Then Exit Sub
     CTEMP
     With Temp
         .AddNew
@@ -160,7 +161,7 @@ Private Sub Command1_Click()
         !Cantidad = Text1.Text
         !Precio = Label2.Caption
         !Total = Label6.Caption
-        .UpdateBatch
+        .Update
     End With
     Form4.Hide
 End Sub

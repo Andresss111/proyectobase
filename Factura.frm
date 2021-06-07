@@ -514,7 +514,7 @@ Private Sub Command2_Click()
         With Temp
             .AddNew
             !Descripción = "hey hey"
-            .UpdateBatch
+            .Update
         End With
         Else
         With Temp
